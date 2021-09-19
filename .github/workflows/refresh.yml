@@ -22,13 +22,13 @@ jobs:
         
     - name: Fetching Data
       run: |
-        cd /
+        ls
         python gen.py
         
     - name: Uploading Files
       uses: actions/checkout@v2
       with:
         name: my-artifact
-        path: /*.json
+        path: ./*.json
 
 
