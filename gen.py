@@ -24,7 +24,7 @@ def getallroute():
     stops={}
     stops2={}
     for t in tmp["data"]:
-        print(f"Fetching Data, Route:{t["route"]}.....")
+        print("Fetching Data, Route: "+t["route"]+"...")
         if t["bound"] == "O":
             if t["route"] not in stops:
                 stops[t["route"]]=[]
