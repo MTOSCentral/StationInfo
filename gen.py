@@ -1,7 +1,9 @@
 import requests
 from requests.structures import CaseInsensitiveDict
 import json
+print("Fetcher for github actions")
 def refresh_busstops():
+    print("Refresh Busstops")
     url = "https://data.etabus.gov.hk/v1/transport/kmb/stop"
     response = requests.get(url)
     tmp = response.json()
@@ -15,14 +17,6 @@ def refresh_busstops():
 STOPSINFO={}
 INBOUND={}
 OUTBOUND={}
-def storetmp():
-    global STOPSINFO, INBOUND, OUTBOUND
-    with open("stops.json",encoding="UTF-8") as file:
-        STOPSINFO=json.loads(file.read())
-    with open("inbound.json",encoding="UTF-8") as file:
-        INBOUND=json.loads(file.read())
-    with open("outbound.json",encoding="UTF-8") as file:
-        OUTBOUND=json.loads(file.read())
 def getallroute():
     url = "https://data.etabus.gov.hk/v1/transport/kmb/route-stop"
     response = requests.get(url)
@@ -30,6 +24,7 @@ def getallroute():
     stops={}
     stops2={}
     for t in tmp["data"]:
+        print(f"Fetching Data, Route:{t["route"]}.....")
         if t["bound"] == "O":
             if t["route"] not in stops:
                 stops[t["route"]]=[]
