@@ -21,6 +21,7 @@ jobs:
         python-version: 3.9
         
     - name: Fetching Data
+      uses: actions/checkout@v2
       run: |
         ls
         python gen.py
