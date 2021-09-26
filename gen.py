@@ -1,6 +1,8 @@
 import requests
 from requests.structures import CaseInsensitiveDict
 import json
+import os
+os.system("mkdir output")
 print("Fetcher for github actions")
 def refresh_busstops():
     print("Refresh Busstops")
@@ -11,7 +13,7 @@ def refresh_busstops():
     for t in tmp["data"]:
         stops[t["stop"]]={"chi":t["name_tc"],"eng":t["name_en"]}
     print("Completed Count.")
-    with open("stops.json","w",encoding="UTF-8") as file:
+    with open("output/stops.json","w",encoding="UTF-8") as file:
         json_object = json.dumps(stops, indent = 4) 
         file.write(json_object)
 STOPSINFO={}
@@ -33,10 +35,10 @@ def getallroute():
             if t["route"] not in stops2:
                 stops2[t["route"]]=[]
             stops2[t["route"]].append([t["stop"],t["service_type"]])
-    with open("outbound.json","w",encoding="UTF-8") as file:
+    with open("output/outbound.json","w",encoding="UTF-8") as file:
         json_object = json.dumps(stops, indent = 4) 
         file.write(json_object)
-    with open("inbound.json","w",encoding="UTF-8") as file:
+    with open("output/inbound.json","w",encoding="UTF-8") as file:
         json_object = json.dumps(stops2, indent = 4) 
         file.write(json_object)
 def citybus_refresh():
@@ -72,17 +74,17 @@ def citybus_refresh():
                 rr2[route].append(t["stop"])
             if t["stop"] not in stations:
                 stations.append(t["stop"])
-    with open("outbound_2.json","w",encoding="UTF-8") as file:
+    with open("output/outbound_2.json","w",encoding="UTF-8") as file:
         json_object = json.dumps(rr, indent = 4) 
         file.write(json_object)
-    with open("inbound_2.json","w",encoding="UTF-8") as file:
+    with open("output/inbound_2.json","w",encoding="UTF-8") as file:
         json_object = json.dumps(rr2, indent = 4) 
         file.write(json_object)
-    with open("rr_stations.json","w",encoding="UTF-8") as file:
+    with open("output/rr_stations.json","w",encoding="UTF-8") as file:
         json_object = json.dumps(stations, indent = 4) 
         file.write(json_object)
 def cb():
-    with open("rr_stations.json",encoding="UTF-8") as file:
+    with open("output/rr_stations.json",encoding="UTF-8") as file:
         cba=json.loads(file.read())
     d={}
     for a in cba:
@@ -91,7 +93,7 @@ def cb():
         tmp = response.json()
         d[a]={"chi":tmp['data']["name_tc"],"eng":tmp['data']["name_en"]}
         print(f"Got station: {tmp['data']['name_en']}")
-    with open("ttt.json","w",encoding="UTF-8") as file:
+    with open("output/ttt.json","w",encoding="UTF-8") as file:
         json_object = json.dumps(d, indent = 4) 
         file.write(json_object)
 refresh_busstops()
