@@ -27,11 +27,18 @@ jobs:
     - name: Fetching Data
       run: |
         python gen.py
-        
-    - name: Uploading Files
-      uses: actions/checkout@v2
+    - uses: montudor/action-zip@v1
       with:
-        name: my-artifact
-        path: ./*.json
+        args: zip -qq -r output.zip output
+        
+    - name: Upload to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: output.zip
+        asset_name: mything
+        tag: ${{ github.ref }}
+        overwrite: true
+        body: "Auto Release System...."
 
 
